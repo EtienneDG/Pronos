@@ -13,6 +13,8 @@ namespace PronoProject.Controllers
             ViewBag.Message = "Welcome to ASP.NET MVC!";
 
             return View();
+			
+			
         }
 
         public ActionResult About()
