@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="UserSet" EntityType="Model.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SkillSet" EntityType="Model.Store.SkillSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SportsSet" EntityType="Model.Store.SportsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PronosticsSet" EntityType="Model.Store.PronosticsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GamesSet" EntityType="Model.Store.GamesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EventsSet" EntityType="Model.Store.EventsSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="SkillUser" Association="Model.Store.SkillUser">
+      <End Role="Skill" EntitySet="SkillSet" />
+      <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
+    <AssociationSet Name="SportsPronostics" Association="Model.Store.SportsPronostics">
+      <End Role="Sports" EntitySet="SportsSet" />
+      <End Role="Pronostics" EntitySet="PronosticsSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserPronostics" Association="Model.Store.UserPronostics">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Pronostics" EntitySet="PronosticsSet" />
+    </AssociationSet>
+    <AssociationSet Name="EventsGames" Association="Model.Store.EventsGames">
+      <End Role="Events" EntitySet="EventsSet" />
+      <End Role="Games" EntitySet="GamesSet" />
+    </AssociationSet>
+    <AssociationSet Name="GamesPronostics" Association="Model.Store.GamesPronostics">
+      <End Role="Games" EntitySet="GamesSet" />
+      <End Role="Pronostics" EntitySet="PronosticsSet" />
+    </AssociationSet>
+    <AssociationSet Name="SportsEvents" Association="Model.Store.SportsEvents">
+      <End Role="Sports" EntitySet="SportsSet" />
+      <End Role="Events" EntitySet="EventsSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Skill_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SkillSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AverageScore" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SportsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PronosticsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Score_opp_1" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Score_opp_2" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Sports_Id" Type="int" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="false" />
+    <Property Name="Games_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GamesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Opponent_1" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Opponent_2" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Events_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EventsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Sports_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="SkillUser">
+    <End Role="Skill" Type="Model.Store.SkillSet" Multiplicity="0..1" />
+    <End Role="User" Type="Model.Store.UserSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Skill">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Skill_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SportsPronostics">
+    <End Role="Sports" Type="Model.Store.SportsSet" Multiplicity="1" />
+    <End Role="Pronostics" Type="Model.Store.PronosticsSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sports">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pronostics">
+        <PropertyRef Name="Sports_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserPronostics">
+    <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
+    <End Role="Pronostics" Type="Model.Store.PronosticsSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pronostics">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EventsGames">
+    <End Role="Events" Type="Model.Store.EventsSet" Multiplicity="1" />
+    <End Role="Games" Type="Model.Store.GamesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Events">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Games">
+        <PropertyRef Name="Events_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GamesPronostics">
+    <End Role="Games" Type="Model.Store.GamesSet" Multiplicity="1" />
+    <End Role="Pronostics" Type="Model.Store.PronosticsSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Games">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pronostics">
+        <PropertyRef Name="Games_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SportsEvents">
+    <End Role="Sports" Type="Model.Store.SportsSet" Multiplicity="1" />
+    <End Role="Events" Type="Model.Store.EventsSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sports">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Events">
+        <PropertyRef Name="Sports_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="ModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserSet" EntityType="Model.User" />
+          <EntitySet Name="SkillSet" EntityType="Model.Skill" />
+          <AssociationSet Name="SkillUser" Association="Model.SkillUser">
+            <End Role="Skill" EntitySet="SkillSet" />
+            <End Role="User" EntitySet="UserSet" />
+          </AssociationSet>
+          <EntitySet Name="SportsSet" EntityType="Model.Sports" />
+          <EntitySet Name="PronosticsSet" EntityType="Model.Pronostics" />
+          <AssociationSet Name="SportsPronostics" Association="Model.SportsPronostics">
+            <End Role="Sports" EntitySet="SportsSet" />
+            <End Role="Pronostics" EntitySet="PronosticsSet" />
+          </AssociationSet>
+          <AssociationSet Name="UserPronostics" Association="Model.UserPronostics">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Pronostics" EntitySet="PronosticsSet" />
+          </AssociationSet>
+          <EntitySet Name="GamesSet" EntityType="Model.Games" />
+          <EntitySet Name="EventsSet" EntityType="Model.Events" />
+          <AssociationSet Name="EventsGames" Association="Model.EventsGames">
+            <End Role="Events" EntitySet="EventsSet" />
+            <End Role="Games" EntitySet="GamesSet" />
+          </AssociationSet>
+          <AssociationSet Name="GamesPronostics" Association="Model.GamesPronostics">
+            <End Role="Games" EntitySet="GamesSet" />
+            <End Role="Pronostics" EntitySet="PronosticsSet" />
+          </AssociationSet>
+          <AssociationSet Name="SportsEvents" Association="Model.SportsEvents">
+            <End Role="Sports" EntitySet="SportsSet" />
+            <End Role="Events" EntitySet="EventsSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Nullable="false" Type="String" />
+          <NavigationProperty Name="Skill" Relationship="Model.SkillUser" FromRole="User" ToRole="Skill" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="AverageScore" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Model.SkillUser" FromRole="Skill" ToRole="User" />
+        </EntityType>
+        <Association Name="SkillUser">
+          <End Type="Model.Skill" Role="Skill" Multiplicity="0..1" />
+          <End Type="Model.User" Role="User" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="Sports">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pronostics">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Score_opp_1" Nullable="false" />
+          <Property Type="String" Name="Score_opp_2" Nullable="false" />
+          <NavigationProperty Name="Sports" Relationship="Model.SportsPronostics" FromRole="Pronostics" ToRole="Sports" />
+          <NavigationProperty Name="User" Relationship="Model.UserPronostics" FromRole="Pronostics" ToRole="User" />
+          <NavigationProperty Name="Games" Relationship="Model.GamesPronostics" FromRole="Pronostics" ToRole="Games" />
+        </EntityType>
+        <Association Name="SportsPronostics">
+          <End Type="Model.Sports" Role="Sports" Multiplicity="1" />
+          <End Type="Model.Pronostics" Role="Pronostics" Multiplicity="*" />
+        </Association>
+        <Association Name="UserPronostics">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.Pronostics" Role="Pronostics" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Opponent_1" Nullable="false" />
+          <Property Type="String" Name="Opponent_2" Nullable="false" />
+          <Property Type="String" Name="Date" Nullable="false" />
+          <NavigationProperty Name="Events" Relationship="Model.EventsGames" FromRole="Games" ToRole="Events" />
+          <NavigationProperty Name="Pronostics" Relationship="Model.GamesPronostics" FromRole="Games" ToRole="Pronostics" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Games" Relationship="Model.EventsGames" FromRole="Events" ToRole="Games" />
+          <NavigationProperty Name="Sports" Relationship="Model.SportsEvents" FromRole="Events" ToRole="Sports" />
+        </EntityType>
+        <Association Name="EventsGames">
+          <End Type="Model.Events" Role="Events" Multiplicity="1" />
+          <End Type="Model.Games" Role="Games" Multiplicity="*" />
+        </Association>
+        <Association Name="GamesPronostics">
+          <End Type="Model.Games" Role="Games" Multiplicity="1" />
+          <End Type="Model.Pronostics" Role="Pronostics" Multiplicity="*" />
+        </Association>
+        <Association Name="SportsEvents">
+          <End Type="Model.Sports" Role="Sports" Multiplicity="1" />
+          <End Type="Model.Events" Role="Events" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="ModelContainer">
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SkillSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Skill)">
+        <MappingFragment StoreEntitySet="SkillSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="AverageScore" ColumnName="AverageScore" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SportsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Sports)">
+        <MappingFragment StoreEntitySet="SportsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PronosticsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Pronostics)">
+        <MappingFragment StoreEntitySet="PronosticsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Score_opp_1" ColumnName="Score_opp_1" />
+          <ScalarProperty Name="Score_opp_2" ColumnName="Score_opp_2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GamesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Games)">
+        <MappingFragment StoreEntitySet="GamesSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Opponent_1" ColumnName="Opponent_1" />
+          <ScalarProperty Name="Opponent_2" ColumnName="Opponent_2" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EventsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Events)">
+        <MappingFragment StoreEntitySet="EventsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="SkillUser" TypeName="Model.SkillUser" StoreEntitySet="UserSet">
+      <EndProperty Name="Skill">
+        <ScalarProperty Name="Id" ColumnName="Skill_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Skill_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SportsPronostics" TypeName="Model.SportsPronostics" StoreEntitySet="PronosticsSet">
+      <EndProperty Name="Sports">
+        <ScalarProperty Name="Id" ColumnName="Sports_Id" />
+      </EndProperty>
+      <EndProperty Name="Pronostics">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserPronostics" TypeName="Model.UserPronostics" StoreEntitySet="PronosticsSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Pronostics">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="EventsGames" TypeName="Model.EventsGames" StoreEntitySet="GamesSet">
+      <EndProperty Name="Events">
+        <ScalarProperty Name="Id" ColumnName="Events_Id" />
+      </EndProperty>
+      <EndProperty Name="Games">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GamesPronostics" TypeName="Model.GamesPronostics" StoreEntitySet="PronosticsSet">
+      <EndProperty Name="Games">
+        <ScalarProperty Name="Id" ColumnName="Games_Id" />
+      </EndProperty>
+      <EndProperty Name="Pronostics">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SportsEvents" TypeName="Model.SportsEvents" StoreEntitySet="EventsSet">
+      <EndProperty Name="Sports">
+        <ScalarProperty Name="Id" ColumnName="Sports_Id" />
+      </EndProperty>
+      <EndProperty Name="Events">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="Model" >
+        <EntityTypeShape EntityType="Model.User" Width="1.75" PointX="4" PointY="0.625" Height="1.59568359375" />
+        <EntityTypeShape EntityType="Model.Skill" Width="1.5" PointX="0.875" PointY="0.5" Height="1.787985026041667" />
+        <AssociationConnector Association="Model.SkillUser">
+          <ConnectorPoint PointX="2.375" PointY="1.4228417968750002" />
+          <ConnectorPoint PointX="4" PointY="1.4228417968750002" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Model.Sports" Width="1.5" PointX="10.875" PointY="0.5" Height="1.4033821614583333" />
+        <EntityTypeShape EntityType="Model.Pronostics" Width="1.5" PointX="6.375" PointY="0.625" Height="2.172587890625" />
+        <AssociationConnector Association="Model.SportsPronostics">
+          <ConnectorPoint PointX="10.875" PointY="1.2641910807291668" />
+          <ConnectorPoint PointX="7.875" PointY="1.2641910807291668" />
+        </AssociationConnector>
+        <AssociationConnector Association="Model.UserPronostics">
+          <ConnectorPoint PointX="5.75" PointY="1.4228417968750002" />
+          <ConnectorPoint PointX="6.375" PointY="1.4228417968750002" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Model.Games" Width="1.5" PointX="8.75" PointY="2.125" Height="1.7879850260416665" />
+        <EntityTypeShape EntityType="Model.Events" Width="1.5" PointX="11" PointY="2.5" Height="1.4033821614583331" />
+        <AssociationConnector Association="Model.EventsGames">
+          <ConnectorPoint PointX="11" PointY="3.297841796875" />
+          <ConnectorPoint PointX="10.25" PointY="3.297841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="Model.GamesPronostics">
+          <ConnectorPoint PointX="8.75" PointY="2.4612939453125" />
+          <ConnectorPoint PointX="7.875" PointY="2.4612939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="Model.SportsEvents">
+          <ConnectorPoint PointX="11.6875" PointY="1.9033821614583333" />
+          <ConnectorPoint PointX="11.6875" PointY="2.5" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

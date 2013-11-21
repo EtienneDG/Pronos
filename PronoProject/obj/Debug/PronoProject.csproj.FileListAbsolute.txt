@@ -1,0 +1,7 @@
+d:\users\edussert\documents\visual studio 2010\Projects\PronoProject\PronoProject\bin\PronoProject.dll
+d:\users\edussert\documents\visual studio 2010\Projects\PronoProject\PronoProject\bin\PronoProject.pdb
+d:\users\edussert\documents\visual studio 2010\Projects\PronoProject\PronoProject\bin\EntityFramework.dll
+d:\users\edussert\documents\visual studio 2010\Projects\PronoProject\PronoProject\bin\EntityFramework.xml
+d:\users\edussert\documents\visual studio 2010\Projects\PronoProject\PronoProject\obj\Debug\ResolveAssemblyReference.cache
+d:\users\edussert\documents\visual studio 2010\Projects\PronoProject\PronoProject\obj\Debug\PronoProject.dll
+d:\users\edussert\documents\visual studio 2010\Projects\PronoProject\PronoProject\obj\Debug\PronoProject.pdb

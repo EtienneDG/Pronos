@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="ModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="UserSet" EntityType="Model.User" />
+    <EntitySet Name="SkillSet" EntityType="Model.Skill" />
+    <AssociationSet Name="SkillUser" Association="Model.SkillUser">
+      <End Role="Skill" EntitySet="SkillSet" />
+      <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Nullable="false" Type="String" />
+    <NavigationProperty Name="Skill" Relationship="Model.SkillUser" FromRole="User" ToRole="Skill" />
+  </EntityType>
+  <EntityType Name="Skill">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="AverageScore" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Model.SkillUser" FromRole="Skill" ToRole="User" />
+  </EntityType>
+  <Association Name="SkillUser">
+    <End Type="Model.Skill" Role="Skill" Multiplicity="0..1" />
+    <End Type="Model.User" Role="User" Multiplicity="0..1" />
+  </Association>
+</Schema>
