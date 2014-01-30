@@ -1,0 +1,76 @@
+﻿@model PronoProject.Models.Events
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h1>@Html.DisplayFor(model => model.Name)</h1>
+<br />
+
+<fieldset>
+    <legend>Les prochains matchs:</legend>
+    <div class="container">
+    <div class="display-label"></div>
+    <div class="row">
+    <div class="col-lg-15">
+    @{ 
+        if (Model.Games.Count == 0)
+      {
+          <div>Il n'y a pas de matchs pour cet évènement...</div>
+      }
+      else
+      {
+          <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Adversaire 1</th>
+                    <th>Adversaire 2</th>
+                    <th>Date du match</th>
+                    <th>Cote</th>
+                </tr>
+            </thead>
+            <tbody>
+             @foreach (var game in Model.Games.OrderBy(x => x.Date))
+	            {
+                    if (game.Date < DateTime.Now.Date)
+                    {
+                      <tr class="warning">
+                       <td><a class="btn btn-info disabled">Terminé</a></td>
+                        <td>@game.Opponent_1</td>
+                        <td>@game.Opponent_2</td>
+                        <td>@game.Date</td>
+                        <td>Cote</td>
+                      </tr>
+                    }
+                    else
+                    {
+                      <tr>
+                        <td>@Html.ActionLink("Miser","Create", "Pronostic",new {id = game.Id}, new {@class="btn btn-primary btn-small"})</td>
+                        <td>@game.Opponent_1</td>
+                        <td>@game.Opponent_2</td>
+                        <td>@game.Date</td>
+                        <td>Cote</td>
+
+                      </tr> 
+                    }
+
+                }
+                
+              
+            </tbody>
+        </table>  
+        </div>
+      }
+      }
+  
+    </div> <!--end of col -->
+    </div> <!--end of row -->
+ </div>
+</fieldset>
+<p>
+    
+    @Html.ActionLink("Retour aux évènements","Index", "Events")
+</p>
+

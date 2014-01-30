@@ -1,0 +1,30 @@
+﻿@model PronoProject.Models.Games
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Games</legend>
+
+    <div class="display-label">Opponent_1</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Opponent_1)
+    </div>
+
+    <div class="display-label">Opponent_2</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Opponent_2)
+    </div>
+
+    <div class="display-label">Date</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

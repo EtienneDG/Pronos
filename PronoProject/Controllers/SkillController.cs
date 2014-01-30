@@ -11,14 +11,14 @@ namespace PronoProject.Controllers
 { 
     public class SkillController : Controller
     {
-        private ModelContainer db = new ModelContainer();
+        private ASPNETDBEntities db = new ASPNETDBEntities();
 
         //
         // GET: /Skill/
 
         public ViewResult Index()
         {
-            return View(db.SkillSet.ToList());
+            return View(db.Skill.ToList());
         }
 
         //
@@ -26,7 +26,7 @@ namespace PronoProject.Controllers
 
         public ViewResult Details(int id)
         {
-            Skill skill = db.SkillSet.Single(s => s.Id == id);
+            Skill skill = db.Skill.Single(s => s.Id == id);
             return View(skill);
         }
 
@@ -46,9 +46,20 @@ namespace PronoProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SkillSet.AddObject(skill);
-                db.SaveChanges();
-                return RedirectToAction("Index");  
+                try
+                {
+                    db.Skill.AddObject(skill);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Home");  
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("Create", "Skill");  
+                    throw;
+                }
+               
+
+                
             }
 
             return View(skill);
@@ -59,7 +70,7 @@ namespace PronoProject.Controllers
  
         public ActionResult Edit(int id)
         {
-            Skill skill = db.SkillSet.Single(s => s.Id == id);
+            Skill skill = db.Skill.Single(s => s.Id == id);
             return View(skill);
         }
 
@@ -71,7 +82,7 @@ namespace PronoProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SkillSet.Attach(skill);
+                db.Skill.Attach(skill);
                 db.ObjectStateManager.ChangeObjectState(skill, EntityState.Modified);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -84,7 +95,7 @@ namespace PronoProject.Controllers
  
         public ActionResult Delete(int id)
         {
-            Skill skill = db.SkillSet.Single(s => s.Id == id);
+            Skill skill = db.Skill.Single(s => s.Id == id);
             return View(skill);
         }
 
@@ -94,8 +105,8 @@ namespace PronoProject.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {            
-            Skill skill = db.SkillSet.Single(s => s.Id == id);
-            db.SkillSet.DeleteObject(skill);
+            Skill skill = db.Skill.Single(s => s.Id == id);
+            db.Skill.DeleteObject(skill);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

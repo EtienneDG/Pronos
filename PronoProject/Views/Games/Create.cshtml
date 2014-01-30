@@ -1,0 +1,68 @@
+﻿@model PronoProject.Models.GamesModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Créer un match pour </h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<div class="container">
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Nouveau match</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Opponent_1)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Opponent_1)
+            @Html.ValidationMessageFor(model => model.Opponent_1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Opponent_2)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Opponent_2)
+            @Html.ValidationMessageFor(model => model.Opponent_2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Date)
+        </div>
+
+        <div class="editor-field">
+            @Html.TextBox("Date","", new { type = "text" , name= "date" })
+             <script type="text/javascript">
+                        jQuery(function ($) {
+                            $('*[name=Date]').appendDtpicker(
+                            { "locale": "fr" }
+                            );
+                        });
+                    </script>
+            @Html.ValidationMessageFor(model => model.Date)
+        </div>
+         <div class="editor-label">
+            @Html.LabelFor(model => model.SelectedEvent, "Appartient à l'évènement")
+        </div>
+         <div class="editor-field">
+            @Html.DropDownListFor(model => model.SelectedEvent, new SelectList(Model.EventsList, "Value", "Text"),String.Empty)
+            @Html.ValidationMessageFor(model => model.EventsList)
+            <div id="datetimepicker"></div>
+        </div>
+       
+       <div>
+       <p></p>
+               <input type="submit" value="Create" class="btn btn-default"/>
+       </div>
+    </fieldset>
+}
+</div>
+<div>
+
+        @Html.ActionLink("Retour à la liste", "Details", "Games")
+
+</div>

@@ -1,8 +1,42 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Accueil";
 }
+<!--<img src="../../Content/images/header-banner-cut.jpg" width="100%" />-->
+<p></p>
+<div id="upcomingEventsContainer" class="container" >
 
-<h2>@ViewBag.Message</h2>
-<p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-</p>
+@{int evtDisplayed=1;
+  int maxvalue = 6;
+
+    foreach (var evt in ViewBag.upcomingEvents)
+    {
+      if (( evtDisplayed < maxvalue+1) && ( evtDisplayed < ViewBag.upcomingEvents.Count ))
+    {
+     <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="" alt="event-logo" width="200" height="150" />
+      <div class="caption">
+        <h3>@evt.Name</h3>
+        <p>@evt.Description</p>
+        <p>
+        
+         @Html.ActionLink("Miser", "Details", "Events", new { id = evt.Id }, new {@class= "btn btn-success"})
+        @Html.ActionLink("Détails", "Details", "Events", new { id = evt.Id }, new {@class= "btn btn-default"})
+        </p>
+      </div>
+    </div>
+  </div>
+    evtDisplayed++;
+    }
+  
+  }
+   if (evtDisplayed > maxvalue)
+   {
+    <div>
+        <a href="@Url.Action("Index","Events")">Plus d'évènements...</a>
+    </div>
+   }
+    
+ }
+</div>
+

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PronoProject.Models;
+using System.Data.SqlClient;
 
 namespace PronoProject.Controllers
 {
@@ -10,11 +12,16 @@ namespace PronoProject.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
-
-            return View();
-			
-			
+            using (var context = new ASPNETDBEntities())
+            {
+            //Retrieves current and upcoming
+                SqlParameter param = new SqlParameter("@param", DateTime.Today) ;
+                var lstEvents = context.ExecuteStoreQuery<Events>(
+                        "select * from EventsSet",param).ToList();
+                ViewBag.upcomingEvents = lstEvents; 
+                return View();
+            }
+            
         }
 
         public ActionResult About()
